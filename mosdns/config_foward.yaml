@@ -244,14 +244,20 @@ plugin:
     type: forward
     args:
       upstream:
-        - addr: "quic://dns-unfiltered.adguard" # 服务器地址
+        - addr: "tls://dns-unfiltered.adguard.com" # 服务器地址
           ip_addr: # 手动指定服务器的 IP 地址 可以配置多个
             - "2a10:50c0::1:ff"
             - "94.140.14.140"
             - "2a10:50c0::2:ff"
             - "94.140.14.141"
           trusted: true # 是否是可信服务器
-
+        - addr: "https://dns-unfiltered.adguard.com" # 服务器地址
+          ip_addr: # 手动指定服务器的 IP 地址 可以配置多个
+            - "2a10:50c0::1:ff"
+            - "94.140.14.140"
+            - "2a10:50c0::2:ff"
+            - "94.140.14.141"
+          trusted: true # 是否是可信服务器
   ################ 匹配器 #################
 
   # 查询 - cn 域名
