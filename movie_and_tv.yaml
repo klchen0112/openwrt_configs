@@ -3,28 +3,28 @@ networks:
   br0:
     external: true
 services:
-  transmission:
-    image: lscr.io/linuxserver/transmission:latest
-    container_name: transmission
-    environment:
-      - PUID=99
-      - PGID=100
-      - UMASK=022
-      - TZ=Asia/Shanghai
-      - TRANSMISSION_WEB_HOME=/transmission-web-control/
-      - USER=admin
-      - PASS=KLCHEN0112
-    ports:
-      - 9091:9091
-      - 51413:51413
-      - 51413:51413/udp
-    volumes:
-      - /mnt/user/media/torrents:/media/torrents
-      - /mnt/user/appdata/transmission:/config
-    networks:
-      br0:
-        ipv4_address: 192.168.0.11
-    restart: unless-stopped
+  # transmission:
+  #   image: lscr.io/linuxserver/transmission:latest
+  #   container_name: transmission
+  #   environment:
+  #     - PUID=99
+  #     - PGID=100
+  #     - UMASK=022
+  #     - TZ=Asia/Shanghai
+  #     - TRANSMISSION_WEB_HOME=/transmission-web-control/
+  #     - USER=admin
+  #     - PASS=qfq418
+  #   ports:
+  #     - 9091:9091
+  #     - 51413:51413
+  #     - 51413:51413/udp
+  #   volumes:
+  #     - /mnt/user/media/torrents:/media/torrents
+  #     - /mnt/user/appdata/transmission:/config
+  #   networks:
+  #     br0:
+  #       ipv4_address: 192.168.1.11
+  #   restart: unless-stopped
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
@@ -43,7 +43,7 @@ services:
       - /mnt/user/appdata/qbittorrent:/config
     networks:
       br0:
-        ipv4_address: 192.168.0.12
+        ipv4_address: 192.168.1.12
     restart: unless-stopped
   aria2-pro:
     image: p3terx/aria2-pro
@@ -53,7 +53,7 @@ services:
       - PGID=100
       - UMASK=022
       - TZ=Asia/Shanghai
-      - RPC_SECRET=KLCHEN0112
+      - RPC_SECRET=qfq418
       - RPC_PORT=6800
       - LISTEN_PORT=6888
       - UPDATE_TRACKERS=true
@@ -66,27 +66,27 @@ services:
       - /mnt/user/appdata/aria2-config:/config
     networks:
       br0:
-        ipv4_address: 192.168.0.13
+        ipv4_address: 192.168.1.13
     restart: unless-stopped
-  iyuuplus:
-    image: iyuucn/iyuuplus
-    container_name: iyuuplus
-    environment:
-      - PUID=99
-      - PGID=100
-      - UMASK=022
-      - TZ=Asia/Shanghai
-    ports:
-      - 8787:8787
-    volumes:
-      - /mnt/user/appdata/transmission/:/transmission
-      - /mnt/user/appdata/qbittorrent:/qbittorrent
-      - /mnt/user/media/torrents:/media/torrents
-      - /mnt/user/appdata/iyuuplus:/IYUU/db
-    networks:
-      br0:
-        ipv4_address: 192.168.0.14
-    restart: unless-stopped
+  # iyuuplus:
+  #   image: iyuucn/iyuuplus
+  #   container_name: iyuuplus
+  #   environment:
+  #     - PUID=99
+  #     - PGID=100
+  #     - UMASK=022
+  #     - TZ=Asia/Shanghai
+  #   ports:
+  #     - 8787:8787
+  #   volumes:
+  #     - /mnt/user/appdata/transmission/:/transmission
+  #     - /mnt/user/appdata/qbittorrent:/qbittorrent
+  #     - /mnt/user/media/torrents:/media/torrents
+  #     - /mnt/user/appdata/iyuuplus:/IYUU/db
+  #   networks:
+  #     br0:
+  #       ipv4_address: 192.168.1.14
+  #   restart: unless-stopped
   flaresolverr:
     image: flaresolverr/flaresolverr:latest
     container_name: flaresolverr
@@ -100,7 +100,7 @@ services:
       - 8191:8191
     networks:
       br0:
-        ipv4_address: 192.168.0.15
+        ipv4_address: 192.168.1.15
     restart: unless-stopped
 
   # jackett:
@@ -117,7 +117,7 @@ services:
   #     - 9117:9117
   #   networks:
   #     br0:
-  #       ipv4_address: 192.168.0.15
+  #       ipv4_address: 192.168.1.15
   #   restart: unless-stopped
 
   prowlarr:
@@ -134,7 +134,7 @@ services:
       - 9696:9696
     networks:
       br0:
-        ipv4_address: 192.168.0.16
+        ipv4_address: 192.168.1.16
     restart: unless-stopped
 
   radarr:
@@ -152,7 +152,7 @@ services:
       - 7878:7878
     networks:
       br0:
-        ipv4_address: 192.168.0.17
+        ipv4_address: 192.168.1.17
     restart: unless-stopped
 
   sonarr:
@@ -170,7 +170,7 @@ services:
       - 8989:8989
     networks:
       br0:
-        ipv4_address: 192.168.0.18
+        ipv4_address: 192.168.1.18
     restart: unless-stopped
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -187,7 +187,7 @@ services:
       - 6767:6767
     networks:
       br0:
-        ipv4_address: 192.168.0.19
+        ipv4_address: 192.168.1.19
     restart: unless-stopped
   overseerr:
     image: lscr.io/linuxserver/overseerr:latest
@@ -203,75 +203,75 @@ services:
       - 5055:5055
     networks:
       br0:
-        ipv4_address: 192.168.0.20
+        ipv4_address: 192.168.1.20
     restart: unless-stopped
-  lidarr:
-    image: lscr.io/linuxserver/lidarr:latest
-    container_name: lidarr
-    environment:
-      - PUID=99
-      - PGID=100
-      - UMASK=022
-      - TZ=Asia/Shanghai
-    volumes:
-      - /mnt/user/appdata/lidarr:/config
-      - /mnt/user/media:/media
-    ports:
-      - 8686:8686
-    networks:
-      br0:
-        ipv4_address: 192.168.0.21
-    restart: unless-stopped
-  readarr:
-    image: lscr.io/linuxserver/readarr:develop
-    container_name: readarr
-    environment:
-      - PUID=99
-      - PGID=100
-      - UMASK=022
-      - TZ=Asia/Shanghai
-    volumes:
-      - /mnt/user/appdata/readarr:/config
-      - /mnt/user/media:/media
-    ports:
-      - 8787:8787
-    networks:
-      br0:
-        ipv4_address: 192.168.0.22
-    restart: unless-stopped
+  # lidarr:
+  #   image: lscr.io/linuxserver/lidarr:latest
+  #   container_name: lidarr
+  #   environment:
+  #     - PUID=99
+  #     - PGID=100
+  #     - UMASK=022
+  #     - TZ=Asia/Shanghai
+  #   volumes:
+  #     - /mnt/user/appdata/lidarr:/config
+  #     - /mnt/user/media:/media
+  #   ports:
+  #     - 8686:8686
+  #   networks:
+  #     br0:
+  #       ipv4_address: 192.168.1.21
+  #   restart: unless-stopped
+  # readarr:
+  #   image: lscr.io/linuxserver/readarr:develop
+  #   container_name: readarr
+  #   environment:
+  #     - PUID=99
+  #     - PGID=100
+  #     - UMASK=022
+  #     - TZ=Asia/Shanghai
+  #   volumes:
+  #     - /mnt/user/appdata/readarr:/config
+  #     - /mnt/user/media:/media
+  #   ports:
+  #     - 8787:8787
+  #   networks:
+  #     br0:
+  #       ipv4_address: 192.168.1.22
+  #   restart: unless-stopped
 
-  mylar3:
-    image: lscr.io/linuxserver/mylar3:latest
-    container_name: mylar3
-    environment:
-      - PUID=99
-      - PGID=100
-      - UMASK=022
-      - TZ=Asia/Shanghai
-    volumes:
-      - /mnt/user/appdata/mylar3:/config
-      - /mnt/user/media:/media
-    ports:
-      - 8090:8090
-    networks:
-      br0:
-        ipv4_address: 192.168.0.23
-    restart: unless-stopped
+  # mylar3:
+  #   image: lscr.io/linuxserver/mylar3:latest
+  #   container_name: mylar3
+  #   environment:
+  #     - PUID=99
+  #     - PGID=100
+  #     - UMASK=022
+  #     - TZ=Asia/Shanghai
+  #   volumes:
+  #     - /mnt/user/appdata/mylar3:/config
+  #     - /mnt/user/media:/media
+  #   ports:
+  #     - 8090:8090
+  #   networks:
+  #     br0:
+  #       ipv4_address: 192.168.1.23
+  #   restart: unless-stopped
 
-  whisparr:
-    image: cr.hotio.dev/hotio/whisparr:nightly
-    container_name: whisparr
-    environment:
-      - PUID=99
-      - PGID=100
-      - UMASK=022
-      - TZ=Asia/Shanghai
-    volumes:
-      - /mnt/user/appdata/whisparr:/config
-      - /mnt/user/media:/media
-    ports:
-      - 6969:6969
-    networks:
-      br0:
-        ipv4_address: 192.168.0.24
-    restart: unless-stopped
+  # whisparr:
+  #   image: cr.hotio.dev/hotio/whisparr:nightly
+  #   container_name: whisparr
+  #   environment:
+  #     - PUID=99
+  #     - PGID=100
+  #     - UMASK=022
+  #     - TZ=Asia/Shanghai
+  #   volumes:
+  #     - /mnt/user/appdata/whisparr:/config
+  #     - /mnt/user/media:/media
+  #   ports:
+  #     - 6969:6969
+  #   networks:
+  #     br0:
+  #       ipv4_address: 192.168.1.24
+  #   restart: unless-stopped

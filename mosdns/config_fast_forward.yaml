@@ -51,11 +51,11 @@ plugin:
     type: sequence
     args:
       exec:
-        #- if:
-        #    - query_ad # ad
-        #  exec:
-        #    - _block_with_nxdomain # 空应答
-        #    - _return
+        - if:
+           - query_ad # ad
+         exec:
+           - _block_with_nxdomain # 空应答
+           - _return
         - mem_cache # 缓存
         - if:
             - query_zju
