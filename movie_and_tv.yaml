@@ -3,28 +3,28 @@ networks:
   br0:
     external: true
 services:
-  # transmission:
-  #   image: lscr.io/linuxserver/transmission:latest
-  #   container_name: transmission
-  #   environment:
-  #     - PUID=99
-  #     - PGID=100
-  #     - UMASK=022
-  #     - TZ=Asia/Shanghai
-  #     - TRANSMISSION_WEB_HOME=/transmission-web-control/
-  #     - USER=admin
-  #     - PASS=qfq418
-  #   ports:
-  #     - 9091:9091
-  #     - 51413:51413
-  #     - 51413:51413/udp
-  #   volumes:
-  #     - /mnt/user/media/torrents:/media/torrents
-  #     - /mnt/user/appdata/transmission:/config
-  #   networks:
-  #     br0:
-  #       ipv4_address: 192.168.1.11
-  #   restart: unless-stopped
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    environment:
+      - PUID=99
+      - PGID=100
+      - UMASK=022
+      - TZ=Asia/Shanghai
+      - TRANSMISSION_WEB_HOME=/transmission-web-control/
+      - USER=admin
+      - PASS=qfq418
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    volumes:
+      - /mnt/user/media/torrents:/media/torrents
+      - /mnt/user/appdata/transmission:/config
+    networks:
+      br0:
+        ipv4_address: 192.168.1.11
+    restart: unless-stopped
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
@@ -189,56 +189,56 @@ services:
       br0:
         ipv4_address: 192.168.1.19
     restart: unless-stopped
-  overseerr:
-    image: lscr.io/linuxserver/overseerr:latest
-    container_name: overseerr
+    ombi:
+      image: lscr.io/linuxserver/ombi:latest
+      container_name: overseerr
+      environment:
+        - PUID=99
+        - PGID=100
+        - UMASK=022
+        - TZ=Asia/Shanghai
+      volumes:
+        - /mnt/user/appdata/ombi:/config
+      ports:
+        - 3579:3579
+      networks:
+        br0:
+          ipv4_address: 192.168.2.20
+      restart: unless-stopped
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
     environment:
       - PUID=99
       - PGID=100
       - UMASK=022
       - TZ=Asia/Shanghai
     volumes:
-      - /mnt/user/appdata/overseerr:/config
+      - /mnt/user/appdata/lidarr:/config
+      - /mnt/user/media:/media
     ports:
-      - 5055:5055
+      - 8686:8686
     networks:
       br0:
-        ipv4_address: 192.168.1.20
+        ipv4_address: 192.168.1.21
     restart: unless-stopped
-  # lidarr:
-  #   image: lscr.io/linuxserver/lidarr:latest
-  #   container_name: lidarr
-  #   environment:
-  #     - PUID=99
-  #     - PGID=100
-  #     - UMASK=022
-  #     - TZ=Asia/Shanghai
-  #   volumes:
-  #     - /mnt/user/appdata/lidarr:/config
-  #     - /mnt/user/media:/media
-  #   ports:
-  #     - 8686:8686
-  #   networks:
-  #     br0:
-  #       ipv4_address: 192.168.1.21
-  #   restart: unless-stopped
-  # readarr:
-  #   image: lscr.io/linuxserver/readarr:develop
-  #   container_name: readarr
-  #   environment:
-  #     - PUID=99
-  #     - PGID=100
-  #     - UMASK=022
-  #     - TZ=Asia/Shanghai
-  #   volumes:
-  #     - /mnt/user/appdata/readarr:/config
-  #     - /mnt/user/media:/media
-  #   ports:
-  #     - 8787:8787
-  #   networks:
-  #     br0:
-  #       ipv4_address: 192.168.1.22
-  #   restart: unless-stopped
+  readarr:
+    image: lscr.io/linuxserver/readarr:develop
+    container_name: readarr
+    environment:
+      - PUID=99
+      - PGID=100
+      - UMASK=022
+      - TZ=Asia/Shanghai
+    volumes:
+      - /mnt/user/appdata/readarr:/config
+      - /mnt/user/media:/media
+    ports:
+      - 8787:8787
+    networks:
+      br0:
+        ipv4_address: 192.168.1.22
+    restart: unless-stopped
 
   # mylar3:
   #   image: lscr.io/linuxserver/mylar3:latest
@@ -275,3 +275,27 @@ services:
   #     br0:
   #       ipv4_address: 192.168.1.24
   #   restart: unless-stopped
+  chinesesubfinder:
+    image: allanpk716/chinesesubfinder:latest
+    container_name: chinesesubfinder
+    volumes:
+      - /mnt/user/appdata/chinesesubfinder/config:/config # 冒号左边请修改为你想在主机上保存配置、日志等文件的路径
+      - /media/media:/media/media # 请修改为你的媒体目录，冒号右边可以改成你方便记忆的目录，多个媒体目录需要分别映射进来
+      - /mnt/user/appdata/chinesesubfinder/browser:/root/.cache/rod/browser # 容器重启后无需再次下载 chrome，除非 go-rod 更新
+    environment:
+      - PUID=99 # uid
+      - PGID=100 # gid
+      - PERMS=true # 是否重设/media权限
+      - TZ=Asia/Shanghai # 时区
+      - UMASK=022 # 权限掩码
+    restart: always
+    ports:
+      - 19035:19035 # 从0.20.0版本开始，通过webui来设置
+      - 19037:19037 # webui 的视频列表读取图片用，务必设置不要暴露到外网
+    networks:
+      br0:
+        ipv4_address: 192.168.1.25
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m" # 限制docker控制台日志大小，可自行调整
