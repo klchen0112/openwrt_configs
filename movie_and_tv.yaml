@@ -12,8 +12,8 @@ services:
       - UMASK=022
       - TZ=Asia/Shanghai
       - TRANSMISSION_WEB_HOME=/transmission-web-control/
-      - USER=admin
-      - PASS=qfq418
+      - USER=klchen0112
+      - PASS=klchen0112
     ports:
       - 9091:9091
       - 51413:51413
@@ -53,7 +53,7 @@ services:
       - PGID=100
       - UMASK=022
       - TZ=Asia/Shanghai
-      - RPC_SECRET=qfq418
+      - RPC_SECRET=klchen0112
       - RPC_PORT=6800
       - LISTEN_PORT=6888
       - UPDATE_TRACKERS=true
