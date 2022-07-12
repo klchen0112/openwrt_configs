@@ -53,7 +53,7 @@ plugin:
       exec:
         - if:
            - query_ad # ad
-         exec:
+          exec:
            - _block_with_nxdomain # 空应答
            - _return
         - mem_cache # 缓存
@@ -133,49 +133,26 @@ plugin:
     args:
       upstream:
         - addr: "https://dns.alidns.com/dns-query" # 服务器地址
-          ip_addr: # 手动指定服务器的 IP 地址 可以配置多个
-            - "2400:3200:baba::1"
-            - "223.5.5.5"
-            - "2400:3200::1"
-            - "223.6.6.6"
+          ip_addr: "223.5.5.5"
           trusted: true # 是否是可信服务器
 
         - addr: "tls://dns.alidns.com" # 服务器地址
-          ip_addr: # 手动指定服务器的 IP 地址 可以配置多个
-            - "2400:3200:baba::1"
-            - "223.5.5.5"
-            - "2400:3200::1"
-            - "223.6.6.6"
+          ip_addr: "223.6.6.6"
           trusted: true # 是否是可信服务器
 
-      bootstrap:
-        - "tls://1.1.1.1"
-        - "https://223.5.5.5/dns-query"
-      fastest_ip: false # 优选最快 ip 对返回 ip 测速,可能会非常慢
-      timeout: 5 # 请求超时时间秒
 
   # dnspod
   - tag: dnspod
-    type: forward
+    type: fast_forward
     args:
       upstream:
         - addr: "https://doh.pub/dns-query" # 服务器地址
-          ip_addr: # 手动指定服务器的 IP 地址 可以配置多个
-            - "2402:4e00::"
-            - "119.29.29.29"
+          dial_addr: "119.29.29.29"
           trusted: true # 是否是可信服务器
 
         - addr: "tls://dot.pub" # 服务器地址
-          ip_addr: # 手动指定服务器的 IP 地址 可以配置多个
-            - "2402:4e00::"
-            - "119.29.29.29"
+          dial_addr: "119.28.28.28"
           trusted: true # 是否是可信服务器
-
-      bootstrap:
-        - "tls://1.1.1.1"
-        - "https://223.5.5.5/dns-query"
-      fastest_ip: false # 优选最快 ip 对返回 ip 测速,可能会非常慢
-      timeout: 5 # 请求超时时间秒
 
   # 本地 dns 备用
   - tag: localdns
@@ -193,12 +170,10 @@ plugin:
         - addr: "https://dns.google/dns-query" # 服务器地址
           dial_addr: "8.8.4.4"
           trusted: true # 是否是可信服务器
-          socks5: 127.0.0.1:1080
           enable_pipeline: true
         - addr: "tls://dns.google" # 服务器地址
           dial_addr: "8.8.8.8"
           trusted: true # 是否是可信服务器
-          socks5: 127.0.0.1:1080
           enable_pipeline: true
       timeout: 5 # 请求超时时间秒
 
@@ -210,12 +185,10 @@ plugin:
         - addr: "https://cloudflare-dns.com/dns-query" # 服务器地址
           dial_addr: "1.0.0.1"
           trusted: true # 是否是可信服务器
-          socks5: 127.0.0.1:1080
           enable_pipeline: true
         - addr: "tls://cloudflare-dns.com" # 服务器地址
           dial_addr: "1.1.1.1"
           trusted: true # 是否是可信服务器
-          socks5: 127.0.0.1:1080
           enable_pipeline: true
       timeout: 5 # 请求超时时间秒
 
@@ -227,7 +200,6 @@ plugin:
         - addr: "tls://dns-unfiltered.adguard.com" # 服务器地址
           dial_addr: "94.140.14.140"
           trusted: true # 是否是可信服务器
-          socks5: 127.0.0.1:1080
           enable_pipeline: true
 
   ################ 匹配器 #################
